@@ -36,46 +36,34 @@ export const Posts = () => {
   })
   
   return (
-    <h1>
-      Loading Posts
-      {
-        reduxStore.post.posts.map((post) => {
-          const {user} = post
-          return (
-            <>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar src="https://www.looper.com/img/gallery/every-power-sasuke-has-on-naruto-explained/l-intro-1663193400.jpg">
-                    {/* <FaceIcon color={"error"}/> */}
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={
-                    <Typography variant="body1" color={"black"} fontWeight={600}>
-                      {user.email}
-                    </Typography>
-                } secondary={
-                  <Typography variant='subtitle2' color={"gray"} fontWeight={400}>
-                    {formatedPeriodForDisplay(post.createdAt)}
-                  </Typography>
-                } />
-              </ListItem>
-              <Divider />
-              <ListItem>
-                <ListItemText primary={
-                    <Typography variant="h6" color={"black"} fontWeight={600}>
-                      {post.title}
-                    </Typography>
-                } secondary={
-                  <Typography  variant="body1">
-                      {post.description}
-                  </Typography>
-                } />
-              </ListItem>
-              <CommentSection postId={post._id}/>
-            </>
-          )
-        })
-      }
-    </h1>
+    <>
+    <ListItem>
+      <ListItemAvatar>
+        <Avatar src="https://www.looper.com/img/gallery/every-power-sasuke-has-on-naruto-explained/l-intro-1663193400.jpg"/>
+      </ListItemAvatar>
+      <ListItemText primary={
+          <Typography variant="body1" color={"black"} fontWeight={600}>
+            {reduxStore.post.posts[0]?.user.email}
+          </Typography>
+      } secondary={
+        <Typography variant='subtitle2' color={"gray"} fontWeight={400}>
+          {formatedPeriodForDisplay(reduxStore.post.posts[0]?.createdAt)}
+        </Typography>
+      } />
+    </ListItem>
+    <Divider />
+    <ListItem>
+      <ListItemText primary={
+          <Typography variant="h6" color={"black"} fontWeight={600}>
+            {reduxStore.post.posts[0]?.title}
+          </Typography>
+      } secondary={
+        <Typography  variant="body1">
+            {reduxStore.post.posts[0]?.description}
+        </Typography>
+      } />
+    </ListItem>
+    <CommentSection postId={reduxStore.post.posts[0]?._id}/>
+    </>
   )
 }
