@@ -28,8 +28,8 @@ export const getAllPosts = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch(getAllPostsFailure({
         message: error.message,
-        status: error.response.status,
-        text: error.response.statusText
+        status: error.response?.status,
+        text: error.response?.statusText
     }));
   }
 };

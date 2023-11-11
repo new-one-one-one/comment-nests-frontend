@@ -23,8 +23,8 @@ export const registerUser = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: REGISTER.FAILURE, payload: {
       message: error.message,
-      status: error.response.status,
-      text: error.response.statusText
+      status: error.response?.status,
+      text: error.response?.statusText
     }});
   }
 };
@@ -38,8 +38,8 @@ export const loginUser = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: LOGIN.FAILURE, payload: {
       message: error.message,
-      status: error.response.status,
-      text: error.response.statusText
+      status: error.response?.status,
+      text: error.response?.statusText
     }});
   }
 };
