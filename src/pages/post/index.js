@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { getAllPosts } from '../../store/actions/postActions';
 import {
   ListItem,
@@ -11,39 +12,32 @@ import {
 } from "@mui/material"
 import FaceIcon from '@mui/icons-material/Face';
 import { formatedPeriodForDisplay } from '../../utils/helpers';
+import CommentSection from './commentSection';
 export const Posts = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const reduxStore = useSelector((state) => state)
   useEffect(() => {
     dispatch(getAllPosts());
   }, [])
 
+  useEffect(() => {
+    // Todo : this has to be written in more better way 
+    if(reduxStore.post?.error?.status === 403) {
+      if(localStorage) {
+        localStorage.removeItem("jwtToken")
+      }
+      navigate("/login")
+    }
+  }, [reduxStore.post.error])
+
   console.log({
     reduxStore
   })
-
-  /**
   
-  {
-    "_id": "654bba613f0bd9bc5e232f37",
-    "title": "My New Post",
-    "description": "This is a test post",
-    "imageLink": "https://example.com/image.jpg",
-    "user": {
-        "_id": "654b8cb843009ea1fc1ee251",
-        "email": "ohri.piyush0190@gmail.com"
-    },
-    "createdAt": "2023-11-08T16:42:09.015Z",
-    "updatedAt": "2023-11-08T16:42:09.015Z",
-    "__v": 0
-  }
-
-
-   */
   return (
     <h1>
       Loading Posts
-      
       {
         reduxStore.post.posts.map((post) => {
           const {user} = post
@@ -53,7 +47,6 @@ export const Posts = () => {
                 <ListItemAvatar>
                   <Avatar src="https://www.looper.com/img/gallery/every-power-sasuke-has-on-naruto-explained/l-intro-1663193400.jpg">
                     {/* <FaceIcon color={"error"}/> */}
-
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={
@@ -78,6 +71,7 @@ export const Posts = () => {
                   </Typography>
                 } />
               </ListItem>
+              <CommentSection postId={post._id}/>
             </>
           )
         })

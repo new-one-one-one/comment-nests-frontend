@@ -16,19 +16,20 @@ export const getAllPosts = () => async (dispatch, getState) => {
   dispatch(getAllPostsRequest());
 
   try {
-    const token = getState()?.auth.token || getTokenFromLocalStorage("jwtToken") ; // Retrieve the token from the state
-    console.log({
-        token
-    }, "getAllPosts")
+    const token = getState()?.auth.token || getTokenFromLocalStorage("jwtToken") ; 
 
     const config = {
       headers: {
         Authorization: `${token}`,
       },
     };
-    const response = await axios.get(POST_BASE_URL+'/all', config); // Include the token in the request headers
+    const response = await axios.get(POST_BASE_URL+'/all', config);
     dispatch(getAllPostsSuccess(response.data));
   } catch (error) {
-    dispatch(getAllPostsFailure(error));
+    dispatch(getAllPostsFailure({
+        message: error.message,
+        status: error.response.status,
+        text: error.response.statusText
+    }));
   }
 };
